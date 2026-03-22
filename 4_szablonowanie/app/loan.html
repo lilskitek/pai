@@ -1,0 +1,78 @@
+{extends file="../templates/main.html"}
+
+{block name=content}
+	<section id="calc" class="wrapper style1 fullscreen fade-up">
+		<div class="inner">
+			<h1>Kalkulator kredytów</h1>
+
+			{if isset($messages)}
+				{if count($messages) > 0}
+					<div class="messages">
+						<h4>Wystąpiły błędy:</h4>
+						<ol class="err">
+							{foreach $messages as $msg}
+								{strip}<li>{$msg}</li>{/strip}
+							{/foreach}
+						</ol>
+					</div>
+				{/if}
+			{/if}
+
+			{if isset($infos)}
+				{if count($infos) > 0}
+					<div class="messages">
+						<h4>Informacje:</h4>
+						<ol class="inf">
+							{foreach $infos as $msg}
+								{strip}<li>{$msg}</li>{/strip}
+							{/foreach}
+						</ol>
+					</div>
+				{/if}
+			{/if}
+
+			<form action="{$app_url}/app/loan.php" method="get">
+				<div class="fields">
+
+					<div class="field">
+						<label for="amount">Kwota</label>
+						<input id="amount" type="text" name="amount" value="{$form.amount|default:''}" />
+					</div>
+
+					<div class="field">
+						<label for="years">Lata</label>
+						<input id="years" type="text" name="years" value="{$form.years|default:''}" />
+					</div>
+
+					<div class="field">
+						<label for="interest">Oprocentowanie (%)</label>
+						<input id="interest" type="text" name="interest" value="{$form.interest|default:''}" />
+					</div>
+
+				</div>
+
+				<ul class="actions">
+					<li><input type="submit" value="Oblicz" class="primary" /></li>
+				</ul>
+			</form>
+
+			<ul class="actions">
+				<li><a href="#result" class="button scrolly">Przejdź do wyniku</a></li>
+			</ul>
+		</div>
+	</section>
+
+	<section id="result" class="wrapper style2 fade-up">
+		<div class="inner">
+			<h2>Wynik</h2>
+
+			{if isset($result)}
+				<p>Miesięczna rata:</p>
+				<h3>{$result|round:2} zł</h3>
+			{else}
+				<p>Uzupełnij dane i kliknij „Oblicz”.</p>
+			{/if}
+
+		</div>
+	</section>
+{/block}
